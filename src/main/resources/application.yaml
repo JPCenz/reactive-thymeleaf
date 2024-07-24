@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: spring-webflux-mongo
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/demo_mongo
+      # Uncomment and use these if you prefer separate host, port, and database configurations
+      # host: localhost
+      # port: 27017
+      # database: demo
+  thymeleaf:
+    reactive:
+      max-chunk-size: 1024
+      chunked-mode-view-names: "listar-chunked"
