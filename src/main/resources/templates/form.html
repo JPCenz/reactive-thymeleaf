@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Title</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+</head>
+<body>
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/listar}">listar</a>
+<div>
+    <p th:if="${error!=null}" th:text="${error}" class="error"></p>
+    <form th:action="@{/form}" method="post" th:object="${producto}" enctype="multipart/form-data">
+        <input th:if="${producto.id != null}" type="hidden" th:field="${producto.id}">
+        <input th:if="${producto.foto != null}" type="hidden" th:field="${producto.foto}">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" th:value="${producto.nombre}"/>
+        <small th:if="${#fields.hasErrors('nombre')}" th:errors="${producto.nombre}" th:errorclass="error">Nombre incorrecto</small>
+        <br/>
+        <label for="precio">Precio:</label>
+        <input type="text" id="precio" name="precio" th:value="${producto.precio}"/>
+        <small th:if="${#fields.hasErrors('precio')}" th:errors="${producto.precio}" th:errorclass="error">Precio incorrecto</small>
+        <br/>
+        <label for="precio">CreatedAt:</label>
+        <input type="date" id="createAt" name="createAt" th:field="${producto.createAt}"/>
+        <br/>
+
+        <br/>
+        <label for="categoria.id">Seleccione Categoria:</label>
+        <select id="categoria.id" th:field="${producto.categoria.id}" name="categoria.id">
+            <option value="">--Seleccionar--</option>
+            <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+
+        </select>
+        <small th:if="${#fields.hasErrors('categoria.id')}" th:errors="${producto.categoria.id}" th:errorclass="error"></small>
+        <br/>
+
+        <div>
+            <label for="file" th:unless="${producto.foto}">Seleccione una imagen:</label>
+            <div>
+                <img th:if="${producto.foto != null && #strings.length(producto.foto)>0}"
+                     th:src="@{'/uploads/img/'+${producto.foto}}" alt="Foto del producto" width="200"
+                     style="max-width: 25%">
+            </div>
+            <input type="file" id="file" name="file" />
+
+        </div>
+        <input type="submit" value="Guardar"/>
+    </form>
+</div>
+
+</body>
+
+<style>
+    .error {
+        color: red;
+    }
+</style>
+</html>

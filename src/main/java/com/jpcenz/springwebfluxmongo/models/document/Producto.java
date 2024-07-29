@@ -1,25 +1,57 @@
 package com.jpcenz.springwebfluxmongo.models.document;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+@Builder
+@AllArgsConstructor
 @Document(collection = "productos")
 public class Producto {
     @Id
     private String id;
+    @NotEmpty
     private String nombre;
+    @NotNull
     private Double precio;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createAt;
+    @Valid
+    @NotNull
+    private Categoria categoria;
+
+    private String foto;
+
     public Producto (){
 
     }
 
-    public Producto (String _name,Double _price){
-        this.nombre = _name;
-        this.precio = _price;
+    public String getFoto() {
+        return foto;
     }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+
+
+
     public String getId() {
         return id;
     }

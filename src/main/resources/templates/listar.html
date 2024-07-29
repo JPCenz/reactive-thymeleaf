@@ -2,10 +2,19 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${titulo}">Title</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+
 </head>
-<body>
-<h1>Lista de Productos</h1>
+<body class="container">
+<div th:if="${param.error!=null}" th:text="${param.error}"></div>
+<div th:if="${param.sucess!=null}" th:text="${param.sucess}"></div>
+
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/form}">Nuevo</a>
 
 <table>
     <tr>
@@ -13,12 +22,16 @@
         <th>Nombre</th>
         <th>Precio</th>
         <th>Fecha</th>
+        <th>Categoria</th>
     </tr>
     <tr th:each="producto : ${productos}">
-        <td th:text="${producto.id}"></td>
+        <td><a th:href="@{'/ver/'+${producto.id}}" th:text="${#strings.abbreviate(producto.id,10)}"></a></td>
         <td th:text="${producto.nombre}"></td>
-        <td th:text="${producto.precio}"></td>
-        <td th:text="${producto.createAt}"></td>
+        <td th:text="${#numbers.formatCurrency(producto.precio)}"></td>
+        <td th:text="${#calendars.format(producto.createAt,'dd/MM/yyyy')}"></td>
+        <td th:text="${producto.categoria.nombre}"></td>
+        <td> <a th:href="@{'/form-v2/'+${producto.id}}">Editar</a></td>
+        <td> <a th:href="@{'/eliminar/'+${producto.id}}" th:data-name="${producto.nombre}" th:onclick="alert('Eliminar el producto ' + this.getAttribute('data-name'))" >Eliminar</a></td>
     </tr>
 </table>
 

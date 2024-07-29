@@ -1,0 +1,27 @@
+package com.jpcenz.springwebfluxmongo.models.document;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Document(collection = "categorias")
+public class Categoria {
+
+    @Id
+    @NotEmpty
+    private String id;
+    private String nombre;
+    private String descripcion;
+    private String estado;
+    private String createAt;
+    private String codigo;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Title</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+
+</head>
+<body class="container">
+<div th:if="${param.error!=null}" th:text="${param.error}"></div>
+<div th:if="${error!=null}" th:text="${error}"></div>
+<div th:if="${param.sucess!=null}" th:text="${param.sucess}"></div>
+
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/listar}">Listar</a>
+    <div>
+        <img th:if="${producto.foto != null && #strings.length(producto.foto)>0}"
+             th:src="@{'/uploads/img/'+${producto.foto}}" alt="Foto del producto" width="200"
+             style="max-width: 25%">
+    </div>
+
+    <ul>
+        <li th:text="${#strings.abbreviate(producto.id,10)}"></li>
+        <li th:text="${producto.nombre}"></li>
+        <li th:text="${#numbers.formatCurrency(producto.precio)}"></li>
+        <li th:text="${#calendars.format(producto.createAt,'dd/MM/yyyy')}"></li>
+        <li th:text="${producto.categoria.nombre}"></li>
+    </ul>
+
+
+</body>
+</html>
