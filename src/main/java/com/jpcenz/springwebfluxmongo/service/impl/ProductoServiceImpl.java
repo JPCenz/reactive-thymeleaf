@@ -5,15 +5,14 @@ import com.jpcenz.springwebfluxmongo.models.dao.ProductoDao;
 import com.jpcenz.springwebfluxmongo.models.document.Categoria;
 import com.jpcenz.springwebfluxmongo.models.document.Producto;
 import com.jpcenz.springwebfluxmongo.service.ProductoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
-    private ProductoDao dao;
-    private CategoriaDao categoriaDao;
+    private final ProductoDao dao;
+    private final CategoriaDao categoriaDao;
 
     public ProductoServiceImpl(ProductoDao dao, CategoriaDao categoriaDao) {
         this.dao = dao;
@@ -27,12 +26,11 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Flux<Producto> findAllConNombreUpperCase() {
-        Flux<Producto> productos = dao.findAll().map(producto -> {
+
+        return dao.findAll().map(producto -> {
             producto.setNombre(producto.getNombre().toUpperCase());
             return producto;
         });
-
-        return productos;
     }
 
     @Override

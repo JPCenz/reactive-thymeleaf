@@ -1,6 +1,5 @@
 package com.jpcenz.springwebfluxmongo.controller;
 
-import com.jpcenz.springwebfluxmongo.models.dao.ProductoDao;
 import com.jpcenz.springwebfluxmongo.models.document.Categoria;
 import com.jpcenz.springwebfluxmongo.models.document.Producto;
 import com.jpcenz.springwebfluxmongo.service.ProductoService;
@@ -25,7 +24,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -37,7 +35,7 @@ public class ProductoController {
     @Value("${config.uploads.path}")
     private String path;
 
-    private ProductoService service;
+    private final ProductoService service;
 
     public ProductoController(ProductoService service) {
         this.service = service;
@@ -96,7 +94,7 @@ public class ProductoController {
                         producto.setCreateAt(new java.util.Date());
                     }
                     if (!file.filename().isEmpty()){
-                        producto.setFoto(UUID.randomUUID().toString()+"-"+file.filename()
+                        producto.setFoto(UUID.randomUUID() +"-"+file.filename()
                                 .replace(" ","")
                                 .replace(":","")
                                 .replace("\\",""));
@@ -152,7 +150,6 @@ public class ProductoController {
 
     @GetMapping("/uploads/img/{nombreFoto:.+}")
     public Mono<ResponseEntity<Resource>> verFoto(@PathVariable(name = "nombreFoto") String nombreFoto) throws MalformedURLException {
-        File file = new File(path+nombreFoto);
         Path ruta = Paths.get(path).resolve(nombreFoto).toAbsolutePath();
         Resource imagen = new UrlResource(ruta.toUri());
 
